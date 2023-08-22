@@ -4,12 +4,14 @@ import datetime
 import json
 from tqdm import tqdm
 
+
 def get_token_id(file_name):
     """Чтение токена и ID пользователя"""
     with open(os.path.join(os.getcwd(), file_name), 'r') as token_file:
         token = token_file.readline().strip()
         id_one = token_file.readline().strip()
     return [token, id_one]
+
 
 def find_max_dpi(dict_in_search):
     """Поиск максимального DPI (разрешения) фото"""
@@ -50,6 +52,8 @@ class VkRequest:
                   'rev': 1
                   }
         photo_info = requests.get(url, params={**self.start_params, **params}).json()['response']
+        # resp = requests.get(url)
+        # print(resp.status_code) # проверка статуса запроса
         return photo_info['count'], photo_info['items']
 
     def get_logs_only(self):
@@ -107,6 +111,8 @@ class Yandex:
             print(f'\nПапка {folder_name} успешно создана в корневом каталоге Яндекс диска\n')
         else:
             print(f'\nПапка {folder_name} уже существует. Файлы с одинаковыми именами не будут скопированы\n')
+        # resp2 = requests.get(url)
+        # print(resp2.status_code)  # проверка статуса запроса
         return folder_name
 
     def url_folder(self, folder_name):
@@ -117,6 +123,8 @@ class Yandex:
         in_folder_list = []
         for elem in resource:
             in_folder_list.append(elem['name'])
+        # resp3 = requests.get(url)
+        # print(resp3.status_code)  # проверка статуса запроса
         return in_folder_list
 
     def create_copy(self, dict_files):
@@ -141,7 +149,6 @@ class Yandex:
 
 
 if __name__ == '__main__':
-
     tokenVK = 'token_vk.txt'  # хранится токен и id доступа ВК (построчно)
     tokenYandex = 'token_ya.txt'  # хранится токен Яндекс.Диска
 
